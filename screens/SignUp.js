@@ -5,11 +5,11 @@ import { auth } from '../firebase';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
 
 
-const LoginScreen = ({navigation}) => {
+const SignUpScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  // const navigation = useNavigation()
+  const navigation = useNavigation()
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
@@ -20,12 +20,11 @@ const LoginScreen = ({navigation}) => {
     return unsubscribe
   }, [])
 
-
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
+        console.log('Registered with:', user.email);
       })
       .catch(error => alert(error.message))
   }
@@ -53,17 +52,17 @@ const LoginScreen = ({navigation}) => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}
+          onPress={handleSignUp}
+          style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   )
 }
 
-export default LoginScreen
+export default SignUpScreen
 
 const styles = StyleSheet.create({
   container: {
