@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native'
 import { auth } from '../firebase';
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
 
 
 const LoginScreen = ({navigation}) => {
@@ -28,6 +28,15 @@ const LoginScreen = ({navigation}) => {
         console.log('Logged in with:', user.email);
       })
       .catch(error => alert(error.message))
+  }
+
+  const ForgetPassword = () => {
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+      alert("Reset email has been sent")
+    }).catch((error) =>{
+      alert("Error")
+    })
   }
 
   return (
@@ -57,6 +66,13 @@ const LoginScreen = ({navigation}) => {
           style={styles.button}
         >
           <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={ForgetPassword}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Forget Password?</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
