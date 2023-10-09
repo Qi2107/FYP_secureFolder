@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 
@@ -21,22 +21,47 @@ const HomeScreen = () => {
   };
 
   const navigateToPhotoScreen = () => {
-    navigation.navigate('PhotoSite'); // Navigate to the "PhotoScreen" component
+    navigation.navigate('PhotoSite'); // Navigate to the "PhotoSite" screen
+  };
+
+  const navigateToVideoScreen = () => {
+    navigation.navigate('VideoSite'); // Navigate to the "VideoSite" screen
+  };
+
+  const navigateToFileScreen = () => {
+    navigation.navigate('FileSite'); // Navigate to the "FileSite" screen
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={openDrawer} style={styles.sidebarButton}>
-        <Text>☰</Text> 
+        <Text style={{ fontSize: 30 }}>☰</Text>
       </TouchableOpacity>
-      <Text>Email: {auth.currentUser?.email}</Text>
-      <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToPhotoScreen} style={styles.photoButton}>
-        <Icon name="camera" size={30} color="blue" /> 
-        <Text style={styles.buttonText}>Photo</Text>
-      </TouchableOpacity>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Upload Your Items</Text>
+      </View>
+      <View style={styles.container}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={navigateToPhotoScreen}
+          >
+            <Text style={styles.buttonText}>Photos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={navigateToVideoScreen}
+          >
+            <Text style={styles.buttonText}>Videos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={navigateToFileScreen}
+          >
+            <Text style={styles.buttonText}>Files</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
@@ -49,24 +74,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  headerText: {
+    fontSize: 24,
+    marginLeft: 10,
+    marginTop: 55,
+    fontWeight: 'bold',
+  },
   sidebarButton: {
     position: 'absolute',
     top: 10,
     left: 10,
     padding: 10,
     zIndex: 1,
+    marginTop: 30,
   },
   button: {
-    backgroundColor: '#0782F9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
+    width: 350,
+    height: 120,
+    backgroundColor: '#009FD2', // Customize the button background color
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginBottom: 40,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
+    fontSize: 50, // Adjust the fontSize as needed
+    color: 'white', // Customize the text color
+    fontStyle: 'italic',
   },
 });
