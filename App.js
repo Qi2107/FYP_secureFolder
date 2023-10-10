@@ -1,32 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MyDrawer from './screens/myDrawer';
+import { SimpleLineIcons, MaterialIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-
+import 'react-native-gesture-handler';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
-import 'react-native-gesture-handler';
-import  Welcome  from './screens/Welcome';
+import Welcome from './screens/Welcome';
 import SignUp from './screens/SignUp';
-import SettingsScreen from './screens/SettingsScreen';
-import RateUsScreen from './screens/RateUsScreen';
-import PhotoSite from './screens/PhotoSite';
+import Setting from './screens/Settings';
+import RateApp from './screens/RateApp';
+import SignOut from './screens/SignOut';
 
-const Stack = createNativeStackNavigator();
+
+const Drawer = createDrawerNavigator();
+
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Welcome'>
-        <Stack.Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
-        <Stack.Screen options={{headerShown:false}} name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
-        <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="RateUs" component={RateUsScreen} options={{headerShown: false}}/>
-      </Stack.Navigator>
+      <Drawer.Navigator initialRouteName='Welcome'>
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Welcome" component={Welcome} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' } }}/>
+        <Drawer.Screen name="Login" component={LoginScreen} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' }  }}/>
+        <Drawer.Screen name="SignUp" component={SignUp} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' }  }} />
+        <Drawer.Screen name="RateApp" component={RateApp}/>
+        <Drawer.Screen name="Settings" component={Setting}/>
+        <Drawer.Screen name="SignOut" component={SignOut}/>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
@@ -39,3 +44,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
