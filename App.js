@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MyDrawer from './screens/myDrawer';
 
-
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import 'react-native-gesture-handler';
@@ -14,6 +13,8 @@ import SignUp from './screens/SignUp';
 import SettingsScreen from './screens/SettingsScreen';
 import RateUsScreen from './screens/RateUsScreen';
 import PhotoSite from './screens/PhotoSite';
+import VideoSite from './screens/VideoSite';
+import FileSite from './screens/FileSite';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -26,6 +27,9 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
         <Stack.Screen name="Settings" component={SettingsScreen} options={{headerShown: false}}/>
         <Stack.Screen name="RateUs" component={RateUsScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="PhotoSite" component={PhotoSite} options={{ title: 'Photos' }} />
+        <Stack.Screen name="VideoSite" component={VideoSite} options={{ title: 'Videos' }} />
+        <Stack.Screen name="FileSite" component={FileSite} options={{ title: 'Files' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
