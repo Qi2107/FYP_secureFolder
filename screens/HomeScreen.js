@@ -1,72 +1,52 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
-import { auth } from '../firebase';
+import { StyleSheet, View, Text, Button,TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
 
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.navigate('Login');
-      })
-      .catch((error) => alert(error.message));
+  const navigateToPhotos = () => {
+    navigation.navigate("Photo");
   };
 
-  const openDrawer = () => {
-    console.log('Opening Drawer'); // Add this line for debugging
-    navigation.openDrawer();
+  const navigateToVideos = () => {
+    navigation.navigate("Video");
   };
 
-  const navigateToPhotoScreen = () => {
-    navigation.navigate('PhotoSite'); // Navigate to the "PhotoSite" screen
+  const navigateToFiles = () => {
+    navigation.navigate("File");
   };
 
-  const navigateToVideoScreen = () => {
-    navigation.navigate('VideoSite'); // Navigate to the "VideoSite" screen
-  };
-
-  const navigateToFileScreen = () => {
-    navigation.navigate('FileSite'); // Navigate to the "FileSite" screen
-  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={openDrawer} style={styles.sidebarButton}>
-        <Text style={{ fontSize: 30 }}>☰</Text>
-      </TouchableOpacity>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Upload Your Items</Text>
+      <View style={styles.row}>
+        <TouchableOpacity style={styles.item} onPress={navigateToPhotos}>
+          <Icon name="photo" size={50} />
+          <Text style={styles.itemText}>Photos</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={navigateToVideos}>
+          <Icon name="videocam" size={50} />
+          <Text style={styles.itemText}>Videos</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={navigateToPhotoScreen}
-          >
-            <Text style={styles.buttonText}>Photos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={navigateToVideoScreen}
-          >
-            <Text style={styles.buttonText}>Videos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={navigateToFileScreen}
-          >
-            <Text style={styles.buttonText}>Files</Text>
-          </TouchableOpacity>
-        </View>
+
+      <View style={styles.row}>
+        <TouchableOpacity style={styles.item} onPress={navigateToFiles}>
+          <Icon name="description" size={50} />
+          <Text style={styles.itemText}>Files</Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity style={styles.item} onPress={navigateToUniversalFolder}>
+          <Icon name="folder" size={50} />
+          <Text style={styles.itemText}>Universal Folder</Text>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
 };
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -74,36 +54,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headerContainer: {
+  row: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-around',
     marginBottom: 20,
   },
-  headerText: {
-    fontSize: 24,
-    marginLeft: 10,
-    marginTop: 55,
-    fontWeight: 'bold',
-  },
-  sidebarButton: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    padding: 10,
-    zIndex: 1,
-    marginTop: 30,
-  },
-  button: {
-    width: 350,
-    height: 120,
-    backgroundColor: '#009FD2', // Customize the button background color
-    justifyContent: 'center',
+  item: {
     alignItems: 'center',
-    marginBottom: 40,
   },
-  buttonText: {
-    fontSize: 50, // Adjust the fontSize as needed
-    color: 'white', // Customize the text color
-    fontStyle: 'italic',
+  itemText: {
+    marginTop: 10,
   },
 });
+
+export default HomeScreen;

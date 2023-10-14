@@ -1,15 +1,15 @@
-import { View, Text, Pressable, Image, StyleSheet } from 'react-native'
+import { View, Text, Pressable, Image, StyleSheet,ScrollView} from 'react-native'
 import React from 'react'
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
 
 const Welcome = ({ navigation }) => {
     return (
-        <View style={styles.container}>
-            <Image
+        <ScrollView contentContainerStyle={styles.container}>
+            {/* <Image
                 source={require("../assets/welcome.jpg")}
                 style={styles.image}
-            />
+            /> */}
 
             <Button
                 title="Sign Up"
@@ -25,7 +25,7 @@ const Welcome = ({ navigation }) => {
                     <Text style={styles.signInLink}>Login</Text>
                 </Pressable>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white, // Set background color to white
     },
     image: {
-        height: 500,
-        width: 500,
+        width: '90%',
+        aspectRatio: 16/9,
     },
     button: {
         marginTop: 22,
@@ -61,4 +61,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Welcome;
+export default Welcome
+

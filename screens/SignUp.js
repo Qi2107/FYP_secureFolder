@@ -4,7 +4,6 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import { auth } from '../firebase';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
 
-
 const SignUpScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,7 +12,7 @@ const SignUpScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigation.replace("Home")
+        navigation.navigate("Home")
       }
     })
 

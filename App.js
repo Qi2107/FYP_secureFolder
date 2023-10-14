@@ -15,6 +15,10 @@ import SignUp from './screens/SignUp';
 import Setting from './screens/Settings';
 import RateApp from './screens/RateApp';
 import SignOut from './screens/SignOut';
+import PhotoScreen from './screens/PhotoScreen';
+import Video from './screens/VideoScreen';
+import File from './screens/FileScreen';
+
 
 
 const Drawer = createDrawerNavigator();
@@ -28,6 +32,9 @@ export default function App() {
         <Drawer.Screen name="Welcome" component={Welcome} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' } }}/>
         <Drawer.Screen name="Login" component={LoginScreen} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' }  }}/>
         <Drawer.Screen name="SignUp" component={SignUp} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' }  }} />
+        <Drawer.Screen name="Photo" component={PhotoScreen} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' } }}/>
+        <Drawer.Screen name="Video" component={Video} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' }  }} />
+        <Drawer.Screen name="File" component={File} options={{ headerShown: false,drawerLabel: () => null, drawerItemStyle: { display: 'none' }  }} />
         <Drawer.Screen name="RateApp" component={RateApp}/>
         <Drawer.Screen name="Settings" component={Setting}/>
         <Drawer.Screen name="SignOut" component={SignOut}/>
@@ -44,5 +51,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
 
