@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native'
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Alert } from 'react-native'
 import { auth } from '../firebase';
-import {signInWithEmailAndPassword, sendPasswordResetEmail} from 'firebase/auth';
+import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 
 
 const LoginScreen = () => {
@@ -10,41 +10,41 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('')
   const navigation = useNavigation()
 
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.navigate("Home")
-      }
-    })
-
-    return unsubscribe
-  }, [navigation]);
-
-
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-      })
-      .catch(error => alert(error.message))
-  }
-
-  const ForgetPassword = () => {
-    sendPasswordResetEmail(auth, email)
-    .then(() => {
-      alert("Reset email has been sent")
-    }).catch((error) =>{
-      alert("Error")
+        if (user.emailVerified) {
+          console.log('Logged in with:', user.email);
+          navigation.navigate("Home");
+        } else {
+          Alert.alert("Email not verified",
+          "Please check your email for a verification link.",
+          [
+            {
+              text: "Resend Verification",
+              onPress: () => {
+                sendEmailVerification(userCredentials.user);
+                Alert.alert("Email Verification", "An email verification has been sent to you.")
+              }
+            },
+            {
+              text: "Cancel",
+              style: "cancel"
+            }
+          ]
+        );
+      }
     })
+      .catch(error => alert("Wrong Email or Password Entered!"))
   }
 
   return (
-    <KeyboardAvoidingView
+    <SafeAreaView
       style={styles.container}
       behavior={Platform.OS === "ios" ? 'padding' : 'height'}
     >
+      <Text style={styles.title}>Login</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -70,13 +70,22 @@ const LoginScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={ForgetPassword}
+          onPress={() => navigation.navigate("Forget")}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Forget Password?</Text>
         </TouchableOpacity>
+
+        <View style={styles.regView}>
+          <Text style={styles.regText}>Don't have an account? </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={styles.regLink}>Register now!</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
@@ -87,22 +96,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   inputContainer: {
-    width: '80%'
+    width: '80%',
   },
   input: {
-    backgroundColor: 'white',
+    backgroundColor: '#F9F9F9',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+    borderColor: 'grey',
+    borderWidth: 2,
   },
   buttonContainer: {
     width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   button: {
     backgroundColor: '#0782F9',
@@ -112,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonOutline: {
-    backgroundColor: 'white',
+    backgroundColor: 'silver',
     marginTop: 5,
     borderColor: '#0782F9',
     borderWidth: 2,
@@ -123,8 +140,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: '#0782F9',
+    color: 'black',
     fontWeight: '700',
     fontSize: 16,
+  },
+  regView: {
+    marginTop: 12,
+    flexDirection: 'row',
+  },
+  regText: {
+    color: 'black',
+    fontSize: 16,
+  },
+  regLink: {
+    fontSize: 16,
+    color: 'blue',
+    fontWeight: 'bold',
+    textDecorationLine: "underline",
   },
 })
