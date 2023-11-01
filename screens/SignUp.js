@@ -1,29 +1,24 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Alert } from 'react-native'
 import { auth } from '../firebase';
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
+import {createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const navigation = useNavigation()
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.navigate("Home")
-      }
-    })
-
-    return unsubscribe
-  }, [])
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
+
+        sendEmailVerification(userCredentials.user);
+        navigation.navigate("Login");
+        Alert.alert("Email Verification", "An email verification has been sent to you.")
       })
       .catch(error => alert(error.message))
   }
@@ -33,6 +28,7 @@ const SignUpScreen = () => {
       style={styles.container}
       behavior={Platform.OS === "ios" ? 'padding' : 'height'}
     >
+    <Text style={styles.title}>Register</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -69,21 +65,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
   inputContainer: {
     width: '80%'
   },
   input: {
-    backgroundColor: 'white',
+    backgroundColor: '#F9F9F9',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+    borderColor: 'grey',
+    borderWidth: 2,
   },
   buttonContainer: {
     width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   button: {
     backgroundColor: '#0782F9',
@@ -93,18 +96,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonOutline: {
-    backgroundColor: 'white',
+    backgroundColor: '#0782F9',
     marginTop: 5,
     borderColor: '#0782F9',
     borderWidth: 2,
   },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
   buttonOutlineText: {
-    color: '#0782F9',
+    color: 'white',
     fontWeight: '700',
     fontSize: 16,
   },
