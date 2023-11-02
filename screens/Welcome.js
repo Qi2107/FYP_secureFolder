@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native'
+import { View, Image, Text, Pressable, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import COLORS from '../constants/colors';
 import Button from '../components/Button';
@@ -7,6 +7,11 @@ const Welcome = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+
+            <Image
+                source={require('../assets/SecretSecureFolderIcon.png')}
+                style={styles.image}
+            />
 
             <Button
                 title="Sign Up"
@@ -34,8 +39,8 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white, 
     },
     image: {
-        width: '90%',
-        aspectRatio: 16/9,
+        width: 200,
+        height: 200,
     },
     button: {
         marginTop: 22,
