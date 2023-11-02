@@ -15,9 +15,12 @@ import PhotoUpload from './screens/PhotoUpload';
 import VideoUpload from './screens/VideoUpload';
 import PhotoDownload from './screens/PhotoDownload';
 import VideoDownload from './screens/VideoDownload';
+import PhotoDelete from './screens/PhotoDelete';
+import VideoDelete from './screens/VideoDelete';
 import AboutUs from './screens/AboutUs';
 import ChangePassword from './screens/ChangePassword';
 import ForgetPasswordScreen from './screens/ForgetPassword';
+import Request from './screens/Request';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,8 +39,11 @@ export default function App() {
         <Drawer.Screen name="VideoUpload" component={VideoUpload} options={{ title: 'Upload Videos', drawerLabel: () => null, drawerItemStyle: { display: 'none' } }} />
         <Drawer.Screen name="PhotoDownload" component={PhotoDownload} options={{ title: 'Download Photos', drawerLabel: () => null, drawerItemStyle: { display: 'none' } }} />
         <Drawer.Screen name="VideoDownload" component={VideoDownload} options={{ title: 'Download Videos', drawerLabel: () => null, drawerItemStyle: { display: 'none' } }} />
-        <Drawer.Screen name="About Us" component={AboutUs} options={{ title: 'About Us', drawerLabelStyle: { fontSize: 18 } }} />
+        <Drawer.Screen name="PhotoDelete" component={PhotoDelete} options={{ title: 'Delete Photos', drawerLabel: () => null, drawerItemStyle: { display: 'none' } }} />
+        <Drawer.Screen name="VideoDelete" component={VideoDelete} options={{ title: 'Delete Videos', drawerLabel: () => null, drawerItemStyle: { display: 'none' } }} />
         <Drawer.Screen name="Change Password" component={ChangePassword} options={{ title: 'Change Password', drawerLabelStyle: { fontSize: 18 } }} />
+        <Drawer.Screen name="Request" component={Request} options={{ title: 'Request Disable/Delete', drawerLabelStyle: { fontSize: 18 } }} />
+        <Drawer.Screen name="About Us" component={AboutUs} options={{ title: 'About Us', drawerLabelStyle: { fontSize: 18 } }} />
         <Drawer.Screen name="Rate Us" component={RateApp} options={{ drawerLabelStyle: { fontSize: 18 } }}/>
         <Drawer.Screen name="Sign Out" component={SignOut} options={{ drawerLabelStyle: {color: 'red', fontSize: 18, fontWeight: 'bold' } }} />
       </Drawer.Navigator>

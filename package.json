@@ -38,6 +38,7 @@
     "react-native": "0.72.5",
     "react-native-blob-courier": "^4.0.0",
     "react-native-document-picker": "^9.0.1",
+    "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-image-picker": "^7.0.2",
     "react-native-paper": "^5.10.6",
