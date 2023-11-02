@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const PhotoScreen = () => {
+const VideoScreen = () => {
   const navigation = useNavigation();
 
   const navigateToUpload = () => {
@@ -13,21 +13,32 @@ const PhotoScreen = () => {
     navigation.navigate("VideoDownload");
   };
 
+  const navigateToDelete = () => {
+    navigation.navigate("VideoDelete");
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.row1}>
-        <TouchableOpacity style={styles.item} onPress={navigateToUpload}>
+      <TouchableOpacity style={styles.row1} onPress={navigateToUpload}>
+        <View style={styles.item}>
           <Text style={styles.itemText}>Upload Videos</Text>
           <Image source={require('../assets/upload.png')} style={styles.icons} />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
 
-      <View style={styles.row2}>
-        <TouchableOpacity style={styles.item} onPress={navigateToDownload}>
+      <TouchableOpacity style={styles.row2} onPress={navigateToDownload}>
+        <View style={styles.item}>
           <Text style={styles.itemText}>Download Videos</Text>
           <Image source={require('../assets/download.png')} style={styles.icons} />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.row3} onPress={navigateToDelete}>
+        <View style={styles.item}>
+          <Text style={styles.itemText}>Delete Videos</Text>
+          <Image source={require('../assets/bin.png')} style={styles.iconBin} />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -43,25 +54,50 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 20,
+    borderWidth: 2,
+    borderRadius: 30,
+    padding: 10,
+    width: '90%',
   },
   row2: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 20,
+    borderWidth: 2,
+    borderRadius: 30,
+    padding: 10,
+    width: '90%',
+  },
+  row3: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+    borderWidth: 2,
+    borderRadius: 30,
+    padding: 10,
+    width: '90%',
   },
   item: {
     alignItems: 'center',
   },
   itemText: {
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 25,
-    marginBottom: 15,
+    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderColor: 'black',
   },
   icons: {
     width: 100,
     height: 100,
     marginTop: 10,
   },
+  iconBin: {
+    width: 80,
+    height: 80,
+    marginTop: 10,
+    marginBottom: 20,
+  },
 });
 
-export default PhotoScreen;
+export default VideoScreen;
