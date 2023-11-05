@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Alert, ImageBackground } from "react-native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { shareAsync } from 'expo-sharing';
-import { Video } from "expo-av"; // Import Video from expo-av
+import { Video } from "expo-av";
 
 const storage = getStorage();
 
@@ -91,14 +91,9 @@ const VideoDownload = () => {
                         }
                     }
                 );
+                save(result.uri, filename, result.headers["content-type"]);
+                Alert.alert("Video has been stored in mobile.");
 
-                if (result.status === 200) {
-                    save(result.uri, filename, result.headers["content-type"]);
-                    Alert.alert("Video has been stored in mobile.")
-                } else {
-                    console.error("Error downloading video: Status code", result.status);
-                    Alert.alert("An error occurred when downloading video.")
-                }
             } else {
                 Alert.alert("Permission not granted to save into mobile!")
                 console.error("Permission denied to save to CAMERA_ROLL");
@@ -111,40 +106,44 @@ const VideoDownload = () => {
     };
 
     return (
-        <ScrollView style={styles.scrollContainer}>
-            <View style={styles.container}>
-                <View>
-                    {videos.map((videoData, index) => (
-                        <View key={index} style={styles.videoFrame}>
-                            <Video
-                                source={{ uri: videoData.url }}
-                                shouldPlay={false}
-                                isMuted={true}
-                                resizeMode="cover"
-                                style={styles.videoThumbnail}
-                            />
-                            <TouchableOpacity style={styles.downloadButton} onPress={() => downloadVideo(videoData.url)}>
-                                <Text style={styles.downloadText}>Download</Text>
-                            </TouchableOpacity>
-                        </View>
-                    ))}
+        <ImageBackground source={require('../assets/videodownload.jpg')} style={styles.imageBackground}>
+            <ScrollView>
+                <View style={styles.container}>
+                    <View>
+                        {videos.map((videoData, index) => (
+                            <View key={index} style={styles.videoFrame}>
+                                <Video
+                                    source={{ uri: videoData.url }}
+                                    shouldPlay={false}
+                                    isMuted={true}
+                                    resizeMode="cover"
+                                    style={styles.videoThumbnail}
+                                />
+                                <TouchableOpacity style={styles.downloadButton} onPress={() => downloadVideo(videoData.url)}>
+                                    <Text style={styles.downloadText}>Download</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </ImageBackground>
     );
 };
 
 export default VideoDownload;
 
 const styles = StyleSheet.create({
-    scrollContainer: {
-        backgroundColor: 'white',
+    imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
     },
     container: {
         flex: 1,
-        backgroundColor: 'white',
-        alignItems: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 130,
     },
     videoFrame: {
         marginBottom: 10,

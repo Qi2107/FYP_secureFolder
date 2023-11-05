@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, Alert, Image } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, Alert, Image, ImageBackground } from 'react-native';
 import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { auth, storage } from '../firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import * as FileSystem from 'expo-file-system';
 
-const PhotoScreen = () => { 
+const PhotoScreen = () => {
 
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -45,7 +45,7 @@ const PhotoScreen = () => {
       const filename = image.substring(image.lastIndexOf('/') + 1);
       const currentUser = auth.currentUser?.email;
       const folderName = '' + currentUser + ''
-      const subfolderName = 'Photos'; 
+      const subfolderName = 'Photos';
       const storageRef = ref(storage, `${folderName}/${subfolderName}/${filename}`);
 
       await uploadBytes(storageRef, blob);
@@ -53,54 +53,63 @@ const PhotoScreen = () => {
       setUploading(false);
       Alert.alert('Photo has been uploaded!');
       setImage(null);
-      } 
-      
-      catch (error) {
-        console.error(error);
-        setUploading(false);
-      }
     }
 
-  return ( 
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.textContainer}>Click on the icon below to upload a photo!</Text>
-      <TouchableOpacity onPress={pickImage} style = {{marginTop: 30}}>
-        <Image source={require('../assets/upload.png')} style={styles.uploadIcon} />
-      </TouchableOpacity>
-      <View style={styles.imageContainer}>
-        {image && <Image source = {{uri: image}} 
-        style={{width: 300, height: 300}} 
-        />}
-        <TouchableOpacity style={styles.uploadButton} onPress={uploadMedia}>
-          <Text style={styles.buttonText}>Upload this photo</Text>
+    catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  }
+
+  return (
+    <ImageBackground source={require('../assets/photoupload.jpg')} style={styles.imageBackground}>
+      <View style={styles.container}>
+        <Text style={styles.textContainer}>Click on the icon below to upload a photo!</Text>
+        <TouchableOpacity onPress={pickImage} style={{ marginTop: 30 }}>
+          <Image source={require('../assets/upload.png')} style={styles.uploadIcon} />
         </TouchableOpacity>
+        <View style={styles.imageContainer}>
+          {image && <Image source={{ uri: image }}
+            style={{ width: 300, height: 300 }}
+          />}
+          <TouchableOpacity style={styles.uploadButton} onPress={uploadMedia}>
+            <Text style={styles.buttonText}>Upload this photo</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   )
 }
 
 export default PhotoScreen;
 
 const styles = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 150,
   },
   textContainer: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'white',
   },
   image: {
     width: 300,
     height: 400,
-    marginTop: 20,
+    marginTop: 10,
   },
   uploadIcon: {
     width: 100,
     height: 100,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   selectButton: {
     borderRadius: 5,
@@ -125,7 +134,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   imageContainer: {
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 50,
     alignItems: 'center',
   }

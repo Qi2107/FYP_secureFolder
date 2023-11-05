@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground } from 'react-native';
 import { auth } from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 
@@ -36,34 +36,34 @@ const ChangePassword = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Change Password</Text>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={(text) => setEmail(text)}
-                />
+        <ImageBackground source={require('../assets/changepassword.jpg')} style={styles.imageBackground}>
+            <View style={styles.container}>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
+                    />
+                </View>
+                <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
+                    <Text style={styles.buttonText}>Change Password</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-                <Text style={styles.buttonText}>Change Password</Text>
-            </TouchableOpacity>
-        </View>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
+    imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
     container: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
-    },
-    title: {
-        fontSize: 30,
-        marginBottom: 20,
-        fontWeight: 'bold',
+        alignItems: 'center',
     },
     inputContainer: {
         width: '80%',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Linking, ImageBackground } from 'react-native';
 
 const AboutUs = () => {
 
@@ -27,81 +27,88 @@ const AboutUs = () => {
     };
 
     return (
-
-        <View style={styles.container}>
-            <View style={styles.aboutContainer}>
-                <Text style={styles.groupName}>
-                    FYP-23-S3-09
-                </Text>
-
-                <View style={styles.memberInfo}>
-                    <Text style={styles.doneBy}>
-                        App done by:
+        <ImageBackground source={require('../assets/aboutus.jpg')} style={styles.imageBackground}>
+            <View style={styles.container}>
+                <View style={styles.aboutContainer}>
+                    <Text style={styles.groupName}>
+                        FYP-23-S3-09
                     </Text>
-                    <Text style={styles.memberHeader}>
-                        UOW ID       Name    
-                    </Text>
-                    {members.map((member, index) => (
-                        <View style={styles.memberRow} key={index}>
-                            <Text style={styles.uowId}>{member.id + '\t\t-\t\t' + member.name}</Text>
-                        </View>
-                    ))}
-                </View>
 
-                
-
-                <Text style={styles.paragraph}>
-                    A group of university students trying their best to work together for this Final Year Project on creating a Secure app.
-                </Text>
-
-                <View style={styles.contact}>
-                    <Text style={styles.contactText}>
-                        Contact Us via Email
-                    </Text>
-                    <Text style={styles.contactEmail}>
-                        Email: fyp3s309@gmail.com
-                    </Text>
-                </View>
-                <View style={styles.web}>
-                    <TouchableOpacity
-                        onPress={handleWebPress}
-                    >
-                        <Text style={styles.webText}>
-                            fyp3s309.wixsite.com/secretsecureapp
+                    <View style={styles.memberInfo}>
+                        <Text style={styles.doneBy}>
+                            App done by:
                         </Text>
-                    </TouchableOpacity>
-                </View>
+                        <Text style={styles.memberHeader}>
+                            UOW ID                      Name
+                        </Text>
+                        {members.map((member, index) => (
+                            <View style={styles.memberRow} key={index}>
+                                <Text style={styles.uowId}>{member.id + '\t\t-\t\t' + member.name}</Text>
+                            </View>
+                        ))}
+                    </View>
 
-                <View style={styles.bottomContainer}>
-                    <Text style={styles.smText}>
-                        Follow our social media for more information!
+
+
+                    <Text style={styles.paragraph}>
+                        A group of university students trying their best to work together for this Final Year Project on creating a Secure app.
                     </Text>
-                    <View style={styles.smButtonRow}>
+
+                    <View style={styles.contact}>
+                        <Text style={styles.contactText}>
+                            Contact Us via Email
+                        </Text>
+                        <Text style={styles.contactEmail}>
+                            Email: fyp3s309@gmail.com
+                        </Text>
+                    </View>
+                    <View style={styles.web}>
                         <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleInstagramPress}
+                            onPress={handleWebPress}
                         >
-                            <Image source={require('../assets/igImage.png')} style={styles.buttonImage} />
+                            <Text style={styles.webText}>
+                                fyp3s309.wixsite.com/secretsecureapp
+                            </Text>
                         </TouchableOpacity>
-                        
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleTwitterPress}
-                        >
-                            <Image source={require('../assets/xImage.png')} style={styles.buttonImage} />
-                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.bottomContainer}>
+                        <Text style={styles.smText}>
+                            Follow our social media for more information!
+                        </Text>
+                        <View style={styles.smButtonRow}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={handleInstagramPress}
+                            >
+                                <Image source={require('../assets/igImage.png')} style={styles.buttonImage} />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={handleTwitterPress}
+                            >
+                                <Image source={require('../assets/xImage.png')} style={styles.buttonImage} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
+    imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
     container: {
         flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        marginTop: 120,
     },
     aboutContainer: {
         flex: 1,
@@ -109,30 +116,39 @@ const styles = StyleSheet.create({
     },
     memberInfo: {
         borderStyle: "solid",
-        borderColor: "grey",
+        borderColor: "white",
         borderWidth: 2,
         borderRadius: 30,
         padding: 10,
-        backgroundColor: "silver",
     },
     doneBy: {
         fontSize: 18,
+        color: 'white',
+        textShadowColor: 'white',
+        textShadowOffset: { width: 1, height: 0 },
+        textShadowRadius: 5,
     },
     memberHeader: {
         fontSize: 21,
         fontWeight: 'bold',
-        textDecorationLine: 'underline',
+        color: 'black',
+        textShadowColor: 'grey',
+        textShadowOffset: { width: 1, height: 0 },
+        textShadowRadius: 5,
     },
     uowId: {
         fontSize: 21,
         color: 'black',
+        textShadowColor: 'grey',
+        textShadowOffset: { width: -2, height: 0 },
+        textShadowRadius: 5,
     },
     groupName: {
         marginBottom: 10,
         fontSize: 50,
         fontWeight: 'bold',
-        textShadowColor: 'rgba(0, 0, 0, 0.75)', 
-        textShadowOffset: { width: 2.5, height: -2 }, 
+        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowOffset: { width: 2.5, height: -2 },
         textShadowRadius: 5,
         width: '100%',
     },
@@ -144,17 +160,20 @@ const styles = StyleSheet.create({
     contactText: {
         textAlign: 'center',
         fontSize: 18,
+        color: 'white',
     },
     contactEmail: {
         textAlign: 'center',
         fontSize: 18,
         fontWeight: 'bold',
+        color: 'white',
     },
     paragraph: {
         fontSize: 25,
         textAlign: 'center',
         justifyContent: 'center',
         marginTop: 15,
+        color: 'white',
     },
     web: {
         marginTop: 20,
@@ -163,11 +182,12 @@ const styles = StyleSheet.create({
         fontSize: 17,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
-        color: 'blue',
+        color: 'cyan',
     },
     smText: {
         textAlign: 'center',
         marginBottom: 10,
+        color: 'white',
     },
     smButtonRow: {
         flexDirection: 'row',
@@ -178,7 +198,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 15, 
+        marginBottom: 15,
     },
     button: {
         backgroundColor: 'transparent',

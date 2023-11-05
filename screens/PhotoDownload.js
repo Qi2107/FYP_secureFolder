@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, Image, Text, ScrollView, TouchableOpacity, Alert, ImageBackground } from "react-native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import * as FileSystem from 'expo-file-system';
@@ -17,7 +17,7 @@ const PhotoDownload = () => {
 
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                setUserEmail(user.email); 
+                setUserEmail(user.email);
             }
         });
 
@@ -46,7 +46,7 @@ const PhotoDownload = () => {
     const save = async (uri, filename, mimetype) => {
         if (Platform.OS === "android") {
             const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-            
+
             if (permissions.granted) {
                 const base64 = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
                 await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, filename, mimetype)
@@ -66,7 +66,7 @@ const PhotoDownload = () => {
 
         try {
             const filenameFull = photoUrl.substring(photoUrl.lastIndexOf("/") + 1);
-            const startIndex = filenameFull.indexOf("Photos%2F") + 9; 
+            const startIndex = filenameFull.indexOf("Photos%2F") + 9;
             const endIndex = filenameFull.indexOf("?alt");
 
             const filename = filenameFull.substring(startIndex, endIndex);
@@ -110,9 +110,9 @@ const PhotoDownload = () => {
     };
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <View>
+        <ImageBackground source={require('../assets/photodownload.jpg')} style={styles.imageBackground}>
+            <ScrollView>
+                <View style={styles.container}>
                     {photos.map((photoUrl, index) => (
                         <View key={index} style={styles.photoFrame}>
                             <Image source={{ uri: photoUrl }} style={styles.photoImage} />
@@ -122,19 +122,24 @@ const PhotoDownload = () => {
                         </View>
                     ))}
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </ImageBackground>
     );
 };
 
 export default PhotoDownload;
 
 const styles = StyleSheet.create({
+    imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
     container: {
         flex: 1,
-        backgroundColor: 'white',
-        alignItems: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 120,
     },
     photoFrame: {
         marginBottom: 10,
