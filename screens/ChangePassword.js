@@ -10,7 +10,7 @@ const ChangePassword = () => {
 
     const handleResetPassword = () => {
         if (email.length === 0) {
-            Alert.alert('Error', 'Please enter your email address.');
+            Alert.alert('Email Cannot Be Empty', 'Please enter your email address.');
             return;
         }
 
@@ -22,7 +22,7 @@ const ChangePassword = () => {
         else {
             sendPasswordResetEmail(auth, email)
                 .then(() => {
-                    Alert.alert('Password Reset Email Sent', 'Check your email to reset your password.');
+                    Alert.alert('Change Password Email Sent', 'Check your email to change your password.');
                 })
                 .then(() => {
                     navigation.navigate("Home");

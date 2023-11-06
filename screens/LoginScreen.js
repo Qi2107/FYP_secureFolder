@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Alert, ImageBackground } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Alert, ImageBackground } from 'react-native'
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 
@@ -36,7 +36,7 @@ const LoginScreen = () => {
           );
         }
       })
-      .catch(error => alert("Wrong Email or Password Entered!"))
+      .catch(error => Alert.alert("Wrong Credentials", "Wrong Email or Password Entered!"))
   }
 
   return (

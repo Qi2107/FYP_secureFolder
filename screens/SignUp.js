@@ -11,6 +11,16 @@ const SignUpScreen = () => {
   const navigation = useNavigation()
 
   const handleSignUp = () => {
+    if (!email) {
+      Alert.alert("Email Cannot Be Empty", "Please enter your email.");
+      return;
+    }
+
+    if (!password) {
+      Alert.alert("Password Cannot Be Empty", "Please enter a password.");
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
@@ -20,8 +30,18 @@ const SignUpScreen = () => {
         navigation.navigate("Login");
         Alert.alert("Email Verification", "An email verification has been sent to you.")
       })
-      .catch(error => alert(error.message))
-  }
+      .catch(error => {
+        if (error.code === "auth/email-already-in-use") {
+          Alert.alert("Email Already Registered", "This email has been registered with us. Please proceed to log in with this account, or look for the verification email to verify the account.");
+        } else if (error.code === "auth/weak-password") {
+          Alert.alert("Weak Password", "The password should be at least 6 characters long.");
+        } else {
+          // Handle other error cases
+          console.error("Registration Error:", error);
+          Alert.alert("Registration Error", "An error occurred during registration. Please try again later.");
+        }
+      });
+  };
 
   return (
     <ImageBackground source={require('../assets/welcome.jpg')} style={styles.imageBackground}>

@@ -23,8 +23,6 @@ const VideoScreen = () => {
       const selectedAsset = result.assets[0];
       setSelectedVideo(selectedAsset);
 
-      // Access the URI using selectedAsset.uri
-      uploadVideo(selectedAsset.uri);
     } else {
       // Handle the case where no video is selected or the selection is canceled
       // You can display a message or take any other appropriate action here
@@ -33,6 +31,12 @@ const VideoScreen = () => {
   };
 
   const uploadVideo = async () => {
+
+    if (!selectedVideo) {
+      Alert.alert('No Video Selected', 'Please select a video before clicking the upload button.');
+      return;
+    }
+
     setUploading(true);
 
     const blob = await fetch(selectedVideo.uri).then((response) => response.blob());
@@ -45,7 +49,7 @@ const VideoScreen = () => {
     await uploadBytes(storageRef, blob);
 
     setUploading(false);
-    Alert.alert('Video has been uploaded!');
+    Alert.alert('Video uploaded', 'Video has been uploaded!');
     setSelectedVideo(null);
   };
 

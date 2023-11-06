@@ -14,7 +14,6 @@ const PhotoScreen = () => {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
       quality: 1,
     });
 
@@ -25,6 +24,12 @@ const PhotoScreen = () => {
 
   // Upload Media Files
   const uploadMedia = async () => {
+
+    if (!image) {
+      Alert.alert('No Image Selected', 'Please select an image before clicking the upload button.');
+      return;
+    }
+
     setUploading(true);
 
     try {
@@ -51,7 +56,7 @@ const PhotoScreen = () => {
       await uploadBytes(storageRef, blob);
 
       setUploading(false);
-      Alert.alert('Photo has been uploaded!');
+      Alert.alert('Photo uploaded', 'Photo has been uploaded!');
       setImage(null);
     }
 

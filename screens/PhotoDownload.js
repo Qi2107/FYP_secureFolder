@@ -93,7 +93,9 @@ const PhotoDownload = () => {
 
                 if (result.status === 200) {
                     save(result.uri, filename, result.headers["content-type"]);
-                    Alert.alert("Image has been stored in mobile.")
+                    setTimeout(() => {
+                        Alert.alert("Image Downloaded", "Image has been stored in mobile.")
+                    }, 3000);
                 } else {
                     console.error("Error downloading photo: Status code", result.status);
                     Alert.alert("An error occurred when downloading image.")

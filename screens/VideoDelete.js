@@ -66,7 +66,7 @@ const VideoDelete = () => {
         try {
             await deleteObject(videoRef);
             setVideos((prevVideos) => prevVideos.filter((video) => video.ref !== videoRef));
-            Alert.alert("Video deleted", "Video has been deleted!");
+            Alert.alert("Video Deleted", "Video has been deleted!");
         } catch (error) {
             console.error("Error deleting video:", error);
             Alert.alert("An error occurred when deleting the video.");

@@ -9,16 +9,26 @@ const ForgetPasswordScreen = () => {
   const navigation = useNavigation()
 
   const ForgetPassword = () => {
+
+    if (!email) {
+      Alert.alert("Email Cannot Be Empty", "Please enter your email.");
+      return;
+    }
+
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        Alert.alert("Reset Email", "Reset email has been sent")
+        Alert.alert("Reset Email", "Reset email has been sent if you have a registered account with that email.");
+        navigation.navigate("Login");
       })
-      .then(() => {
-        navigation.navigate("Login")
-      }).catch((error) => {
-        Alert.alert("Error")
-      })
-  }
+      .catch(error => {
+        if (error.code === "auth/invalid-email") {
+          Alert.alert("Invalid Email", "Please enter a valid email.")
+        } else {
+          console.error("Reset Password Error:", error);
+          Alert.alert("Error", "An error occurred while trying to reset your password. Please try again later.");
+        }
+      });
+  };
 
   return (
     <ImageBackground source={require('../assets/forgetpassword.jpg')} style={styles.imageBackground}>
@@ -41,7 +51,7 @@ const ForgetPasswordScreen = () => {
             onPress={ForgetPassword}
             style={[styles.button, styles.buttonOutline]}
           >
-            <Text style={styles.buttonOutlineText}>Click to send password reset email</Text>
+            <Text style={styles.buttonOutlineText}>Send password reset email</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

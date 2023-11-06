@@ -11,6 +11,18 @@ const Request = () => {
     const [action, setAction] = useState('Disable');
 
     const handleRequest = async () => {
+
+        if (!email && !reason) {
+            Alert.alert("Empty Fields", "Please enter your email and reason before submitting.");
+            return;
+          } else if (!email) {
+            Alert.alert("Email Cannot Be Empty", "Please enter your email address.");
+            return;
+          } else if (!reason) {
+            Alert.alert("Reason Cannot Be Empty", "Please provide a reason for your request.");
+            return;
+          }
+
         try {
             const currentUserEmail = auth.currentUser?.email; // Get current user's email
             if (!currentUserEmail || currentUserEmail.toLowerCase() !== email.toLowerCase()) {
@@ -29,6 +41,9 @@ const Request = () => {
 
             console.log('Request added to Firestore.', docRef.id);
             Alert.alert("Request submitted", "Request has been submitted!")
+
+            setEmail('');
+            setReason('');
         } catch (error) {
             console.error('Error adding request:', error);
         }

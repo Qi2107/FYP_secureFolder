@@ -51,12 +51,12 @@ const AboutUs = () => {
 
 
                     <Text style={styles.paragraph}>
-                        A group of university students trying their best to work together for this Final Year Project on creating a Secure app.
+                        A group of university students trying their best to work together to create a Secret secure folder app to allow users to store their photos and videos.
                     </Text>
 
                     <View style={styles.contact}>
                         <Text style={styles.contactText}>
-                            Contact Us via Email
+                            Contact Us via Email or Visit Our Website
                         </Text>
                         <Text style={styles.contactEmail}>
                             Email: fyp3s309@gmail.com
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 120,
+        marginTop: 110,
     },
     aboutContainer: {
         flex: 1,
@@ -131,14 +131,14 @@ const styles = StyleSheet.create({
     memberHeader: {
         fontSize: 21,
         fontWeight: 'bold',
-        color: 'black',
+        color: 'white',
         textShadowColor: 'grey',
         textShadowOffset: { width: 1, height: 0 },
         textShadowRadius: 5,
     },
     uowId: {
         fontSize: 21,
-        color: 'black',
+        color: 'white',
         textShadowColor: 'grey',
         textShadowOffset: { width: -2, height: 0 },
         textShadowRadius: 5,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     contact: {
-        marginTop: 15,
+        marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -169,14 +169,15 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     paragraph: {
-        fontSize: 25,
+        fontSize: 24,
         textAlign: 'center',
         justifyContent: 'center',
-        marginTop: 15,
+        marginTop: 10,
         color: 'white',
+        padding: 10,
     },
     web: {
-        marginTop: 20,
+        fontSize: 18,
     },
     webText: {
         fontSize: 17,
@@ -198,7 +199,8 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 15,
+        marginBottom: 5,
+        marginTop: 10,
     },
     button: {
         backgroundColor: 'transparent',

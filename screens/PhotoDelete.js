@@ -71,7 +71,7 @@ const PhotoDelete = () => {
             const updatedPhotos = [...photos];
             updatedPhotos.splice(index, 1);
             setPhotos(updatedPhotos);
-            Alert.alert("Image deleted", "Image has been deleted!");
+            Alert.alert("Image Deleted", "Image has been deleted!");
         } catch (error) {
             console.error("Error deleting photo:", error);
             Alert.alert("An error occurred when deleting image.");

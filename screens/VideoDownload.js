@@ -91,9 +91,11 @@ const VideoDownload = () => {
                         }
                     }
                 );
+                
                 save(result.uri, filename, result.headers["content-type"]);
-                Alert.alert("Video has been stored in mobile.");
-
+                setTimeout(() => {
+                    Alert.alert("Video Downloaded", "Video has been stored in mobile.");
+                  }, 3000);
             } else {
                 Alert.alert("Permission not granted to save into mobile!")
                 console.error("Permission denied to save to CAMERA_ROLL");

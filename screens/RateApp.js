@@ -26,6 +26,18 @@ function RateApp() {
   };
 
   const handleSubmit = async () => {
+    
+    if (rating > 0 && !comment) {
+      Alert.alert("Incomplete Feedback", "Please provide a comment along with your rating before submitting.");
+      return;
+    } else if (rating === 0 && comment) {
+      Alert.alert("Incomplete Feedback", "Please select a rating along with your comment before submitting.");
+      return;
+    } else if (rating === 0 && !comment) {
+      Alert.alert("Incomplete Feedback", "Please select a rating and provide a comment before submitting.");
+      return;
+    }
+
     // Create an object with the feedback data to send to the server
     const feedbackData = {
       rating,
@@ -41,6 +53,9 @@ function RateApp() {
     );
     console.log("Document written with ID: ", docRef.id);
     Alert.alert("Feedback submitted", "Feedback has been submitted, thank you for your time!");
+
+    setRating(0);
+    setComment("");
     // firestore
     //   .collection("feedback")
     //   .add(feedbackData)
@@ -126,6 +141,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginRight: 10,
     color: 'white',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 5,
   },
   emailText: {
     fontSize: 20,
@@ -139,9 +157,15 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: "silver",
     marginBottom: 5,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 5,
   },
   filledStar: {
     color: "gold",
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 5,
   },
   commentInput: {
     width: '80%',
