@@ -39,8 +39,6 @@ Search for React Native Tools by Microsoft, download and install it
 
 Next, search for Babel JavaScript by Michael McDermott, download and install it as well
 
-If unsure, check out the screenshots attached below to see what their logo looks like. 
-
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
@@ -132,7 +130,6 @@ Android (Emulator):
 - App will load on its own
 
 iOS (iPhone):
-- Open up the App Store and search for Expo Go (if unsure, look at the screenshot below for how it looks like)
 - Open up the camera app
 - Scan the QR code in the Terminal
 - App will load on its own
