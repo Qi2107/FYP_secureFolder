@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Alert, ImageBackground } from "react-native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, listAll, getDownloadURL, deleteObject } from "firebase/storage";
 import { Video } from "expo-av";
@@ -66,7 +66,7 @@ const VideoDelete = () => {
         try {
             await deleteObject(videoRef);
             setVideos((prevVideos) => prevVideos.filter((video) => video.ref !== videoRef));
-            Alert.alert("Video deleted", "Video has been deleted!");
+            Alert.alert("Video Deleted", "Video has been deleted!");
         } catch (error) {
             console.error("Error deleting video:", error);
             Alert.alert("An error occurred when deleting the video.");
@@ -75,43 +75,47 @@ const VideoDelete = () => {
     };
 
     return (
-        <ScrollView style={styles.scrollContainer}>
-            <View style={styles.container}>
-                <View>
-                    {videos.map((videoData, index) => (
-                        <View key={index} style={styles.videoFrame}>
-                            <Video
-                                source={{ uri: videoData.url }}
-                                shouldPlay={false}
-                                isMuted={true}
-                                resizeMode="cover"
-                                style={styles.videoThumbnail}
-                            />
-                            <TouchableOpacity
-                                style={styles.deleteButton}
-                                onPress={() => confirmDeleteVideo(videoData.ref)}
-                            >
-                                <Text style={styles.deleteText}>Delete</Text>
-                            </TouchableOpacity>
-                        </View>
-                    ))}
+        <ImageBackground source={require('../assets/videodelete.jpg')} style={styles.imageBackground}>
+            <ScrollView>
+                <View style={styles.container}>
+                    <View>
+                        {videos.map((videoData, index) => (
+                            <View key={index} style={styles.videoFrame}>
+                                <Video
+                                    source={{ uri: videoData.url }}
+                                    shouldPlay={false}
+                                    isMuted={true}
+                                    resizeMode="cover"
+                                    style={styles.videoThumbnail}
+                                />
+                                <TouchableOpacity
+                                    style={styles.deleteButton}
+                                    onPress={() => confirmDeleteVideo(videoData.ref)}
+                                >
+                                    <Text style={styles.deleteText}>Delete</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </ImageBackground>
     );
 };
 
 export default VideoDelete;
 
 const styles = StyleSheet.create({
-    scrollContainer: {
-        backgroundColor: "white",
+    imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
     },
     container: {
         flex: 1,
-        backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 130,
     },
     videoFrame: {
         marginBottom: 10,

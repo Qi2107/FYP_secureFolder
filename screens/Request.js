@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { firestore } from '../firebase';
 import { auth } from '../firebase';
@@ -11,11 +11,23 @@ const Request = () => {
     const [action, setAction] = useState('Disable');
 
     const handleRequest = async () => {
+
+        if (!email && !reason) {
+            Alert.alert("Empty Fields", "Please enter your email and reason before submitting.");
+            return;
+          } else if (!email) {
+            Alert.alert("Email Cannot Be Empty", "Please enter your email address.");
+            return;
+          } else if (!reason) {
+            Alert.alert("Reason Cannot Be Empty", "Please provide a reason for your request.");
+            return;
+          }
+
         try {
             const currentUserEmail = auth.currentUser?.email; // Get current user's email
             if (!currentUserEmail || currentUserEmail.toLowerCase() !== email.toLowerCase()) {
                 Alert.alert("Invalid Email", "The provided email does not match the current user's email, you can only request to disable/delete your own account!");
-                return; 
+                return;
             }
 
             const feedbackData = {
@@ -29,62 +41,72 @@ const Request = () => {
 
             console.log('Request added to Firestore.', docRef.id);
             Alert.alert("Request submitted", "Request has been submitted!")
+
+            setEmail('');
+            setReason('');
         } catch (error) {
             console.error('Error adding request:', error);
         }
     };
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../assets/request.jpg')} style={styles.backgroundImage}>
 
-            <Text style={styles.title}>Request to Disable/Delete Account</Text>
+            <View style={styles.container}>
 
-            <View style={styles.checkBoxContainer}>
-                <CheckBox
-                    title="Disable"
-                    size={32}
-                    textStyle={{ fontSize: 20 }}
-                    checked={action === 'Disable'}
-                    onPress={() => setAction('Disable')}
+                <Text style={styles.title}>Request to Disable/Delete Account</Text>
+
+                <View style={styles.checkBoxContainer}>
+                    <CheckBox
+                        title="Disable"
+                        size={32}
+                        textStyle={{ fontSize: 20 }}
+                        checked={action === 'Disable'}
+                        onPress={() => setAction('Disable')}
+                    />
+                    <CheckBox
+                        title="Delete"
+                        size={32}
+                        textStyle={{ fontSize: 20 }}
+                        checked={action === 'Delete'}
+                        onPress={() => setAction('Delete')}
+                    />
+                </View>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email Address"
+                    value={email}
+                    onChangeText={(text) => setEmail(text)}
                 />
-                <CheckBox
-                    title="Delete"
-                    size={32}
-                    textStyle={{ fontSize: 20 }}
-                    checked={action === 'Delete'}
-                    onPress={() => setAction('Delete')}
+
+                <TextInput
+                    style={styles.textArea}
+                    placeholder="Reason"
+                    value={reason}
+                    onChangeText={(text) => setReason(text)}
+                    multiline={true}
+                    textAlignVertical="top"
                 />
+
+                <TouchableOpacity style={styles.submitButton} onPress={handleRequest}>
+                    <Text style={styles.submitText}>Submit</Text>
+                </TouchableOpacity>
             </View>
-
-            <TextInput
-                style={styles.input}
-                placeholder="Email Address"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-            />
-
-            <TextInput
-                style={styles.textArea}
-                placeholder="Reason"
-                value={reason}
-                onChangeText={(text) => setReason(text)}
-                multiline={true}
-                textAlignVertical="top"
-            />
-
-            <TouchableOpacity style={styles.submitButton} onPress={handleRequest}>
-                <Text style={styles.submitText}>Submit</Text>
-            </TouchableOpacity>
-        </View>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
     },
     title: {
         fontSize: 22,
@@ -95,6 +117,7 @@ const styles = StyleSheet.create({
         marginBottom: 40,
         fontWeight: 'bold',
         textAlign: 'center',
+        color: 'white',
     },
     checkBoxContainer: {
         flexDirection: 'row',
@@ -107,18 +130,20 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '80%',
-        borderWidth: 1,
+        borderWidth: 2,
         margin: 10,
         padding: 10,
         borderRadius: 10,
+        backgroundColor: '#F9F9F9'
     },
     textArea: {
         width: '80%',
-        borderWidth: 1,
+        borderWidth: 2,
         margin: 10,
         padding: 10,
         height: 100,
         borderRadius: 10,
+        backgroundColor: '#F9F9F9'
     },
     submitButton: {
         backgroundColor: '#0782F9',
@@ -126,6 +151,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10,
         borderWidth: 1,
+        borderColor: '#0660B8',
         width: '80%',
         padding: 15,
         marginBottom: 50,

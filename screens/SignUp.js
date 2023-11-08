@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Alert } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Alert, ImageBackground } from 'react-native'
 import { auth } from '../firebase';
-import {createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('')
@@ -11,6 +11,16 @@ const SignUpScreen = () => {
   const navigation = useNavigation()
 
   const handleSignUp = () => {
+    if (!email) {
+      Alert.alert("Email Cannot Be Empty", "Please enter your email.");
+      return;
+    }
+
+    if (!password) {
+      Alert.alert("Password Cannot Be Empty", "Please enter a password.");
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
@@ -20,46 +30,72 @@ const SignUpScreen = () => {
         navigation.navigate("Login");
         Alert.alert("Email Verification", "An email verification has been sent to you.")
       })
-      .catch(error => alert(error.message))
-  }
+      .catch(error => {
+        if (error.code === "auth/email-already-in-use") {
+          Alert.alert("Email Already Registered", "This email has been registered with us. Please proceed to log in with this account, or look for the verification email to verify the account.");
+        } else if (error.code === "auth/weak-password") {
+          Alert.alert("Weak Password", "The password should be at least 6 characters long.");
+        } else {
+          // Handle other error cases
+          console.error("Registration Error:", error);
+          Alert.alert("Registration Error", "An error occurred during registration. Please try again later.");
+        }
+      });
+  };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? 'padding' : 'height'}
-    >
-    <Text style={styles.title}>Register</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
+    <ImageBackground source={require('../assets/welcome.jpg')} style={styles.imageBackground}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? 'padding' : 'height'}
+      >
+        <Text style={styles.title}>Register</Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={text => setEmail(text)}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={text => setPassword(text)}
+            style={styles.input}
+            secureTextEntry
+          />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={handleSignUp}
+            style={[styles.button, styles.buttonOutline]}
+          >
+            <Text style={styles.buttonOutlineText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.signInContainer}>
+          <Text style={styles.signInText}>Already have an account? </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.signInLink}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   )
 }
 
 export default SignUpScreen
 
 const styles = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -98,12 +134,29 @@ const styles = StyleSheet.create({
   buttonOutline: {
     backgroundColor: '#0782F9',
     marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#0660B8',
   },
   buttonOutlineText: {
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
+  },
+  signInContainer: {
+    flexDirection: "row",
+    marginTop: 12,
+    justifyContent: "center",
+  },
+  signInText: {
+    fontSize: 16,
+    color: "white",
+  },
+  signInLink: {
+    fontSize: 16,
+    color: "cyan",
+    fontWeight: "bold",
+    marginLeft: 4,
+    textDecorationLine: "underline",
   },
 })

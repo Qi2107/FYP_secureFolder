@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const PhotoScreen = () => {
@@ -18,46 +18,54 @@ const PhotoScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.row1} onPress={navigateToUpload}>
-        <View style={styles.item}>
-          <Text style={styles.itemText}>Upload Photos</Text>
-          <Image source={require('../assets/upload.png')} style={styles.icons} />
-        </View>
-      </TouchableOpacity>
+    <ImageBackground source={require('../assets/photography.jpg')} style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.row1} onPress={navigateToUpload}>
+          <View style={styles.item}>
+            <Text style={styles.itemText}>Upload Photos</Text>
+            <Image source={require('../assets/upload.png')} style={styles.icons} />
+          </View>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.row2} onPress={navigateToDownload}>
-        <View style={styles.item}>
-          <Text style={styles.itemText}>Download Photos</Text>
-          <Image source={require('../assets/download.png')} style={styles.icons} />
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.row2} onPress={navigateToDownload}>
+          <View style={styles.item}>
+            <Text style={styles.itemText}>Download Photos</Text>
+            <Image source={require('../assets/download.png')} style={styles.icons} />
+          </View>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.row3} onPress={navigateToDelete}>
-        <View style={styles.item}>
-          <Text style={styles.itemText}>Delete Photos</Text>
-          <Image source={require('../assets/bin.png')} style={styles.iconBin} />
-        </View>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.row3} onPress={navigateToDelete}>
+          <View style={styles.item}>
+            <Text style={styles.itemText}>Delete Photos</Text>
+            <Image source={require('../assets/bin.png')} style={styles.icons} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
   row1: {
+    marginTop: 90,
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 20,
     borderWidth: 2,
     borderRadius: 30,
+    borderColor: 'white',
     padding: 10,
-    width: '90%',
+    width: '80%',
   },
   row2: {
     flexDirection: 'row',
@@ -65,8 +73,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 2,
     borderRadius: 30,
+    borderColor: 'white',
     padding: 10,
-    width: '90%',
+    width: '80%',
   },
   row3: {
     flexDirection: 'row',
@@ -74,8 +83,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 2,
     borderRadius: 30,
+    borderColor: 'white',
     padding: 10,
-    width: '90%',
+    width: '80%',
   },
   item: {
     alignItems: 'center',
@@ -85,18 +95,16 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginBottom: 10,
     borderBottomWidth: 2,
-    borderColor: 'black',
+    borderColor: 'white',
+    color: 'white',
+    textShadowColor: 'maroon',
+    textShadowOffset: { width: -2, height: 0 },
+    textShadowRadius: 5,
   },
   icons: {
     width: 100,
     height: 100,
     marginTop: 10,
-  },
-  iconBin: {
-    width: 80,
-    height: 80,
-    marginTop: 10,
-    marginBottom: 20,
   },
 });
 

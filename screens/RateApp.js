@@ -5,13 +5,13 @@ import {
   TextInput,
   Button,
   StyleSheet,
-  Image,
-  ScrollView,
+  ImageBackground,
+  Alert
 } from "react-native";
-import COLORS from "../constants/colors";
 import { auth } from "../firebase";
 import { firestore } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 function RateApp() {
   const [rating, setRating] = useState(0);
@@ -26,6 +26,18 @@ function RateApp() {
   };
 
   const handleSubmit = async () => {
+    
+    if (rating > 0 && !comment) {
+      Alert.alert("Incomplete Feedback", "Please provide a comment along with your rating before submitting.");
+      return;
+    } else if (rating === 0 && comment) {
+      Alert.alert("Incomplete Feedback", "Please select a rating along with your comment before submitting.");
+      return;
+    } else if (rating === 0 && !comment) {
+      Alert.alert("Incomplete Feedback", "Please select a rating and provide a comment before submitting.");
+      return;
+    }
+
     // Create an object with the feedback data to send to the server
     const feedbackData = {
       rating,
@@ -40,6 +52,10 @@ function RateApp() {
       feedbackData
     );
     console.log("Document written with ID: ", docRef.id);
+    Alert.alert("Feedback submitted", "Feedback has been submitted, thank you for your time!");
+
+    setRating(0);
+    setComment("");
     // firestore
     //   .collection("feedback")
     //   .add(feedbackData)
@@ -72,41 +88,49 @@ function RateApp() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require("../assets/Feedback.png")} style={styles.image} />
-      <Text style={styles.title}>Feedback Form</Text>
-      <View style={styles.rating}>
-        <Text style={styles.label}>Rating:</Text>
-        {renderStars()}
+    <ImageBackground source={require('../assets/rateapp.jpg')} style={styles.imageBackground}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Feedback Form</Text>
+        <View style={styles.rating}>
+          <Text style={styles.label}>Rating:</Text>
+          {renderStars()}
+        </View>
+        <Text style={styles.emailText}>Email: {auth.currentUser?.email}</Text>
+        <TextInput
+          style={styles.commentInput}
+          value={comment}
+          onChangeText={handleCommentChange}
+          placeholder="Comment"
+          multiline
+          numberOfLines={4}
+          textAlignVertical="top"
+        />
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitText}>Submit</Text>
+        </TouchableOpacity>
       </View>
-      <Text>Email: {auth.currentUser?.email}</Text>
-      <TextInput
-        style={styles.commentInput}
-        value={comment}
-        onChangeText={handleCommentChange}
-        placeholder="Comment"
-        multiline
-        numberOfLines={4}
-      />
-      <Button title="Submit" onPress={handleSubmit} />
-    </ScrollView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: COLORS.white,
-  },
-  image: {
-    width: "90%",
-    aspectRatio: 16 / 9,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 120,
   },
   title: {
-    fontSize: 24,
+    fontSize: 40,
+    color: 'white',
+    fontWeight: 'bold',
     marginBottom: 20,
+    textDecorationLine: 'underline',
   },
   rating: {
     flexDirection: "row",
@@ -114,23 +138,60 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
-    fontSize: 18,
+    fontSize: 24,
     marginRight: 10,
+    color: 'white',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 5,
+  },
+  emailText: {
+    fontSize: 20,
+    color: 'white',
+    textShadowColor: 'black',
+    textShadowOffset: { width: -1, height: 0 },
+    textShadowRadius: 5,
+    marginBottom: 10,
   },
   star: {
-    fontSize: 24,
-    cursor: "pointer",
-    color: "gray", // Default star color
+    fontSize: 36,
+    color: "silver",
+    marginBottom: 5,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 5,
   },
   filledStar: {
-    color: "gold", // Selected star color
+    color: "gold",
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: -1 },
+    textShadowRadius: 5,
   },
   commentInput: {
-    width: "45%",
-    borderColor: "gray",
-    borderWidth: 1,
+    width: '80%',
+    borderWidth: 2,
+    marginTop: 20,
     padding: 10,
-    marginBottom: 20,
+    height: 100,
+    borderRadius: 10,
+    backgroundColor: '#F9F9F9'
+  },
+  submitButton: {
+    backgroundColor: '#0782F9',
+    padding: 10,
+    marginTop: 30,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#0660B8',
+    width: 315,
+    padding: 15,
+    marginBottom: 50,
+  },
+  submitText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
   },
 });
 
