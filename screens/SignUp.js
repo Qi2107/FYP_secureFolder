@@ -44,7 +44,7 @@ const SignUpScreen = () => {
   };
 
   return (
-    <ImageBackground source={require('../assets/welcome.jpg')} style={styles.imageBackground}>
+    <ImageBackground source={require('../assets/signup.jpg')} style={styles.imageBackground}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? 'padding' : 'height'}
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'white',
   },
   inputContainer: {
     width: '80%'
@@ -151,6 +152,9 @@ const styles = StyleSheet.create({
   signInText: {
     fontSize: 16,
     color: "white",
+    textShadowColor: 'black',
+    textShadowOffset: { width: -2, height: 0 },
+    textShadowRadius: 5,
   },
   signInLink: {
     fontSize: 16,
@@ -158,5 +162,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 4,
     textDecorationLine: "underline",
+    textShadowColor: 'grey',
+    textShadowOffset: { width: -2, height: 0 },
+    textShadowRadius: 5,
   },
 })
