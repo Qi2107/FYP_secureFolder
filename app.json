@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "myApps",
-    "slug": "myApps",
+    "name": "Secret",
+    "slug": "Secret",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/SecretSecureFolderIcon.png",
+    "icon": "./assets/Icon.jpg",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/SecretSecureFolderIcon.png",
@@ -22,7 +22,12 @@
         "foregroundImage": "./assets/SecretSecureFolderIcon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.charles21.myApps"
     },
     "web": {
       "favicon": "./assets/SecretSecureFolderIcon.png"
@@ -36,6 +41,11 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6c1a9909-fcb8-4437-9bac-851e373ef4c5"
+      }
+    }
   }
 }
